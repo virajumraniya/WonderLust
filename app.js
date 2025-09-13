@@ -83,6 +83,11 @@ app.delete("/listings/:id", async (req, res) => {
   res.redirect("/listings");
 });
 
+//Custom error handling
+app.use((err,req,res,next) => {
+  res.send("Something went wrong...");
+});
+
 // app.get("/testListing", async (req, res) => {
 //   let sampleListing = new Listing({
 //     title: "My New Villa",
