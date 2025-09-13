@@ -85,7 +85,7 @@ app.delete("/listings/:id", async (req, res) => {
 
 //Custom error handling
 app.use((err,req,res,next) => {
-  res.send("Something went wrong...");
+  res.send("Something went wrong....");
 });
 
 // app.get("/testListing", async (req, res) => {
