@@ -1,0 +1,17 @@
+<!-- success is array not a variable so we needed success.length here -->
+<% if(success && success.length){ %> 
+<div class="alert alert-success alert-dismissible fade show offset-3 col-5 flash-msg" role="alert">
+<!-- to print connect flash msg -->
+<%= success %> 
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<% }  %>
+
+<!-- error is array not a variable so we needed error.length here -->
+<% if(error&& error.length){ %> 
+<div class="alert alert-danger alert-dismissible fade show offset-3 col-5 flash-msg" role="alert">
+<!-- to print connect flash msg -->
+<%= error %> 
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<% }  %>

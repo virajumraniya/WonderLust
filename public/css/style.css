@@ -11,7 +11,7 @@ body{
 
 /* navbar */
 .navbar{
-    /* height: 4rem; */
+    height: 4.5rem;
     background-color: white;
 }
 
@@ -23,6 +23,10 @@ body{
 .nav-link{
     color: #222222 !important;
     font-weight: 600 !important;
+}
+
+.newListing{
+    color: #fe424d !important;
 }
 
 /* footer */
@@ -52,14 +56,14 @@ body{
 /* cards */
 
 #heading{
-    margin-top: 0.7rem;
-    margin-bottom: 0.7rem;
+    margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
     margin-left: 0.2rem;
     font-weight: 600;
 }
-.card{
+.listing-card{
     border: none !important;
-    margin-bottom: 2rem ;
+    margin-bottom: 1.5rem ;
 }
 
 .card-img-top{
@@ -69,7 +73,7 @@ body{
 }
 
 .card-body{
-    padding: 0.3rem 0 0 0.1rem !important;
+    padding: 0 0 0.1rem 0.5rem !important;
 }
 
 .listing-link{
@@ -91,19 +95,30 @@ body{
     background-color: #fe424d !important;
     border: none !important;
     width: 5rem !important;
-    margin-left: 0.5rem !important;
+    margin-left: 0.25rem !important;
     margin-bottom: 2rem !important;
 }
+
+.price{
+    margin-left: -0.50rem;
+}
+
+/* .country{
+    margin-left: 0 0 0 0.50rem;
+} */
 
 /* edit page */
 .edit-btn{
     background-color: #fe424d !important;
     border: none !important;
+    /* margin-left: 20.7rem !important; */
+    margin-bottom: 1.5rem !important;
+    width: 5rem !important;
 }
 
 /* show page */
 .show-img{
-    height: 30vh;
+    height: 40vh;
 }
 
 .btns{
@@ -113,4 +128,40 @@ body{
 .show-card{
     padding-left: 0;
     padding-right: 0;
+}
+
+.del{
+    width: 7rem;
+    margin: 0;
+}
+
+.card-text{
+    margin-top: 1.25rem;
+}
+
+#star-rating{
+    color: #fe424d;
+}
+
+/* Login & Signup */
+.loginBtn{
+    background-color: #fe424d !important;
+    border: none !important;
+}
+
+.signupBtn{
+    background-color: #fe424d !important;
+    border: none !important;
+}
+
+.wanderlust{
+    color: #fe424d;
+}
+
+/* Map */
+#map{
+    margin-top: 1rem;
+    height: 20rem;
+    width: 85vh;
+    border-radius: 1rem;
 }
