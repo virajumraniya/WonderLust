@@ -20,12 +20,34 @@ const User = require("./models/user.js");
 
 // const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust"; // Local mongoDB url
 const dbUrl = process.env.ATLAS_URL; // Mongo Atlas url
+let dbConnectionPromise = null;
 
-async function main() {
-  await mongoose.connect(dbUrl, {
-    tls: true,
-    tlsAllowInvalidCertificates: true,
-    serverSelectionTimeoutMS: 5000,
+const mongoOptions = {
+  tls: true,
+  tlsAllowInvalidCertificates: true,
+  serverSelectionTimeoutMS: 5000,
+};
+
+async function connectDB() {
+  if (mongoose.connection.readyState === 1) {
+    return;
+  }
+
+  if (!dbConnectionPromise) {
+    dbConnectionPromise = mongoose.connect(dbUrl, mongoOptions).catch((err) => {
+      dbConnectionPromise = null;
+      throw err;
+    });
+  }
+
+  await dbConnectionPromise;
+}
+
+async function startServer() {
+  await connectDB();
+  console.log("connected to DB");
+  app.listen(port, () => {
+    console.log("Server is listening on port 8080...");
   });
 }
 
@@ -43,6 +65,7 @@ const sessionOptions = {
 if (process.env.NODE_ENV === "production") {
   const store = MongoStore.create({
     mongoUrl: dbUrl,
+    mongoOptions,
     crypto: {
       secret: process.env.SECRET,
     },
@@ -71,6 +94,15 @@ app.use(express.static(path.join(__dirname, "/public")));
 // app.get("/", (req, res) => {
 //   res.send("Hi, I am root");
 // });
+
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    next(new ExpressError(500, "Database connection failed. Please check the MongoDB Atlas network access and environment variables."));
+  }
+});
 
 app.use(session(sessionOptions)); // using express-session
 app.use(flash()); // using connect-flash
@@ -130,13 +162,14 @@ app.use((err, req, res, next) => {
 //   res.send("successful testing");
 // });
 
-main()
+if (require.main === module) {
+  startServer()
   .then(() => {
-    console.log("connected to DB");
-    app.listen(port, () => {
-      console.log("Server is listening on port 8080...");
-    });
+    // Server started successfully.
   })
   .catch((err) => {
     console.error("DB connection failed:", err.message);
   });
+}
+
+module.exports = app;
