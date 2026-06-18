@@ -29,41 +29,32 @@ async function main() {
   });
 }
 
-main()
-  .then(() => {
-    console.log("connected to DB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-app.listen(port, () => {
-  console.log("Server is listening on port 8080...");
-});
-
-const store = MongoStore.create({
-  mongoUrl: dbUrl,
-  crypto: {
-    secret: process.env.SECRET,
-  },
-  touchAfter: 24 * 3600,
-});
-
-store.on("error", (err) => {
-  console.log("error in Mongo Session-store", err);
-});
-
 const sessionOptions = {
-  store,
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
-  cookies: {
+  cookie: {
     expires: Date.now() + 7 * 24 * 60 * 60 * 1000, // days * hours * mins * secs * mili-secs
     maxAge: 7 * 24 * 60 * 60 * 1000, // days * hours * mins * secs * mili-secs
     httpOnly: true, // to prevent cross-scripting attacks
   },
 };
+
+if (process.env.NODE_ENV === "production") {
+  const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    crypto: {
+      secret: process.env.SECRET,
+    },
+    touchAfter: 24 * 3600,
+  });
+
+  store.on("error", (err) => {
+    console.log("error in Mongo Session-store", err);
+  });
+
+  sessionOptions.store = store;
+}
 
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
@@ -138,3 +129,14 @@ app.use((err, req, res, next) => {
 //   console.log("sample was saved");
 //   res.send("successful testing");
 // });
+
+main()
+  .then(() => {
+    console.log("connected to DB");
+    app.listen(port, () => {
+      console.log("Server is listening on port 8080...");
+    });
+  })
+  .catch((err) => {
+    console.error("DB connection failed:", err.message);
+  });
