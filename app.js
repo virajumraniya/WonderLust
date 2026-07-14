@@ -66,9 +66,6 @@ if (process.env.NODE_ENV === "production") {
   const store = MongoStore.create({
     mongoUrl: dbUrl,
     mongoOptions,
-    crypto: {
-      secret: process.env.SECRET,
-    },
     touchAfter: 24 * 3600,
   });
 
