@@ -7,7 +7,7 @@ The application includes secure user authentication, authorization, image upload
 ## 🚀 Live Demo
 
 🌐 **Live Application:**
-https://wanderlust-one-sigma.vercel.app/listings
+https://wanderlust-hotel-app.vercel.app/
 
 💻 **GitHub Repository:**
 https://github.com/virajumraniya/WonderLust
